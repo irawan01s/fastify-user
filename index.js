@@ -1,17 +1,13 @@
-/* eslint-disable no-undef */
 import './loadEnv.js'
 import fastify from 'fastify'
 import fastifyFormbody from 'fastify-formbody'
+import userRoutes from './routes/userRoutes.js'
 
-console.log(process.env.DB_DIALECT)
-import { getUsers, createUser } from './controllers/userController.js'
-// const axios = require('axios')
 const app = fastify({ logger: false })
+
 app.register(fastifyFormbody)
 
-app.get('/', getUsers)
-app.post('/', createUser)
-
+app.register(userRoutes, { prefix: '/users' })
 
 const start = async () => {
   try {
@@ -21,4 +17,5 @@ const start = async () => {
     process.exit(1)
   }
 }
+
 start()

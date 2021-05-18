@@ -1,6 +1,8 @@
-import {v4 as uuidv4} from 'uuid'
-import bcrypt from 'bcrypt'
+import { v4 as uuidv4 } from 'uuid'
+import bcrypt from 'bcryptjs'
 import User from '../models/user.js'
+
+const salt = bcrypt.genSaltSync(12)
 
 export const getUsers = async (request, reply) => {
   const id = request.query.id
@@ -17,8 +19,8 @@ export const getUsers = async (request, reply) => {
       },
       where: whereStatement
     })
-  
-    reply.header('Content-Type', 'application/json; charset=utf-8').send({
+
+    reply.code(200).send({
       message: 'Success',
       data: users
     })
@@ -28,14 +30,25 @@ export const getUsers = async (request, reply) => {
 }
 
 export const createUser = async (request, reply) => {
-  const { name, userName, email, phone, password, address, birthPlace, birthDate, parentName, createdBy } = request.body
+  const {
+    name,
+    userName,
+    email,
+    phone,
+    password,
+    address,
+    birthPlace,
+    birthDate,
+    parentName,
+    createdBy
+  } = request.body
   const id = uuidv4()
-  const hashPassword = await bcrypt.hash(password, 12)
+  const hashPassword = await bcrypt.hashSync(password, salt)
   const createBy = createdBy || uuidv4()
 
   const newUser = {
     id,
-    name, 
+    name,
     userName,
     email,
     phone,
@@ -47,13 +60,27 @@ export const createUser = async (request, reply) => {
     createdBy: createBy
   }
   try {
-    const createdUser = await User.create(newUser)
-  
+    await User.create(newUser)
+
     reply.code(201).send({
-      code: 200,
+      code: 201,
       message: 'Succsess',
-      data: createdUser
-    })    
+      data: null
+    })
+  } catch (error) {
+    return error
+  }
+}
+
+export const deleteUser = async (request, reply) => {
+  const id = request.params.id
+
+  try {
+    await User.destroy({ where: { id } })
+    reply.code(200).send({
+      message: 'Succsess',
+      data: null
+    })
   } catch (error) {
     return error
   }
