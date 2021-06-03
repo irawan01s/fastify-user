@@ -21,6 +21,7 @@ export const getUsers = async (request, reply) => {
     })
 
     reply.code(200).send({
+      status: true,
       message: 'Success',
       data: users
     })
@@ -63,7 +64,7 @@ export const createUser = async (request, reply) => {
     await User.create(newUser)
 
     reply.code(201).send({
-      code: 201,
+      status: true,
       message: 'Succsess',
       data: null
     })
