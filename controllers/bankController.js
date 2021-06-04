@@ -1,10 +1,7 @@
 import { v4 as uuidv4 } from 'uuid'
-import bcrypt from 'bcryptjs'
-import User from '../models/user.js'
+import Bank from '../models/bank.js'
 
-const salt = bcrypt.genSaltSync(12)
-
-export const getUsers = async (request, reply) => {
+export const getBanks = async (request, reply) => {
   const id = request.query.id
 
   let whereStatement = null
@@ -13,9 +10,9 @@ export const getUsers = async (request, reply) => {
   }
 
   try {
-    const users = await User.findAll({
+    const banks = await Bank.findAll({
       attributes: {
-        exclude: ['password', 'createdAt', 'updatedAt', 'createdBy']
+        exclude: ['createdAt', 'updatedAt', 'createdBy']
       },
       where: whereStatement
     })
@@ -23,45 +20,33 @@ export const getUsers = async (request, reply) => {
     reply.code(200).send({
       status: true,
       message: 'Success',
-      data: users
+      data: banks
     })
   } catch (error) {
     return error
   }
 }
 
-export const createUser = async (request, reply) => {
+export const createBank = async (request, reply) => {
   const {
+    accountNo,
     name,
-    userName,
-    email,
-    phone,
-    password,
-    address,
-    birthPlace,
-    birthDate,
-    parentName,
+    branch,
     createdBy
   } = request.body
   const id = uuidv4()
-  const hashPassword = await bcrypt.hashSync(password, salt)
   const createBy = createdBy || uuidv4()
 
-  const newUser = {
+  const newBank = {
     id,
+    accountNo,
     name,
-    userName,
-    email,
-    phone,
-    password: hashPassword,
-    address,
-    birthPlace,
-    birthDate,
-    parentName,
+    branch,
     createdBy: createBy
   }
+  console.log(newBank)
   try {
-    await User.create(newUser)
+    await Bank.create(newBank)
 
     reply.code(201).send({
       status: true,
@@ -73,11 +58,11 @@ export const createUser = async (request, reply) => {
   }
 }
 
-export const deleteUser = async (request, reply) => {
+export const deleteBank = async (request, reply) => {
   const id = request.params.id
 
   try {
-    await User.destroy({ where: { id } })
+    await Bank.destroy({ where: { id } })
 
     reply.code(200).send({
       status: true,

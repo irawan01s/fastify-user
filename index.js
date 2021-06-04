@@ -3,18 +3,23 @@ import fastify from 'fastify'
 import fastifyFormbody from 'fastify-formbody'
 import fastifyCors from 'fastify-cors'
 import userRoutes from './routes/userRoutes.js'
+import bankRoutes from './routes/bankRoutes.js'
 
 const app = fastify({ logger: false })
-const port = process.env.APP_PORT || 4000
-app.register(fastifyCors)
+
+app.register(fastifyCors, {
+  origin: '*',
+  methods: 'GET,PATCH,POST,DELETE,OPTIONS'
+})
+
 app.register(fastifyFormbody)
 
 app.register(userRoutes, { prefix: '/users' })
+app.register(bankRoutes, { prefix: '/banks' })
 
 const start = async () => {
   try {
-    await app.listen(port)
-    console.log(`Api running on port: ${port}`)
+    await app.listen(4000)
   } catch (err) {
     app.log.error(err)
     process.exit(1)
