@@ -22,7 +22,7 @@ export const getUsers = async (request, reply) => {
 
     reply.code(200).send({
       status: true,
-      message: 'Success',
+      message: 'success',
       data: users
     })
   } catch (error) {
@@ -65,7 +65,7 @@ export const createUser = async (request, reply) => {
 
     reply.code(201).send({
       status: true,
-      message: 'Succsess',
+      message: 'success',
       data: null
     })
   } catch (error) {
@@ -81,7 +81,7 @@ export const deleteUser = async (request, reply) => {
 
     reply.code(200).send({
       status: true,
-      message: 'Succsess',
+      message: 'success',
       data: null
     })
   } catch (error) {
