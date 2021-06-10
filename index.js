@@ -14,6 +14,13 @@ app.register(fastifyCors, {
 
 app.register(fastifyFormbody)
 
+app.get('/', (request, reply) => {
+  reply.code(200).send({
+    status: true,
+    message: 'Success'
+  })
+})
+
 app.register(userRoutes, { prefix: '/users' })
 app.register(bankRoutes, { prefix: '/banks' })
 
