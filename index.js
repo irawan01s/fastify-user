@@ -6,6 +6,7 @@ import userRoutes from './routes/userRoutes.js'
 import bankRoutes from './routes/bankRoutes.js'
 
 const app = fastify({ logger: false })
+const port = process.env.PORT || 3000
 
 app.register(fastifyCors, {
   origin: '*',
@@ -26,7 +27,7 @@ app.register(bankRoutes, { prefix: '/banks' })
 
 const start = async () => {
   try {
-    await app.listen(4000)
+    await app.listen(port)
   } catch (err) {
     app.log.error(err)
     process.exit(1)
