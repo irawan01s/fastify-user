@@ -1,10 +1,11 @@
 {
-  "name": "fastify",
+  "name": "api-fastify",
   "version": "1.0.0",
   "description": "api using fastify",
   "main": "index.js",
   "type": "module",
   "scripts": {
+    "worker": "node index.js",
     "start": "node index.js",
     "dev": "npx nodemon index.js"
   },

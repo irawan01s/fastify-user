@@ -1,4 +1,4 @@
-// import './loadEnv.js'
+import './loadEnv.js'
 // import dotenv from 'dotenv'
 // dotenv.config()
 import fastify from 'fastify'
