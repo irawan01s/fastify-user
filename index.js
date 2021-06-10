@@ -1,4 +1,4 @@
-import './loadEnv.js'
+// import './loadEnv.js'
 // import dotenv from 'dotenv'
 // dotenv.config()
 import fastify from 'fastify'
@@ -8,7 +8,7 @@ import userRoutes from './routes/userRoutes.js'
 import bankRoutes from './routes/bankRoutes.js'
 
 const app = fastify({ logger: false })
-const port = process.env.PORT || 4001
+const port = process.env.PORT || 3000
 
 console.log(`Port ${process.env.PORT}`)
 
